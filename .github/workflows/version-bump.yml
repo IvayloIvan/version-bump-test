@@ -37,27 +37,21 @@ jobs:
           echo "CURRENT_VERSION=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
         id: version
 
-      - name: Bump version
+      - name: Create Release Branch
         run: |
           git switch -c release/${{ steps.version.outputs.CURRENT_VERSION }}
           git push --set-upstream origin release/${{ steps.version.outputs.CURRENT_VERSION }}
-          npm version --no-git-tag-version --no-commit-hooks ${{ inputs.next_version }}
 
-      - name: Commit changes
+      - name: Prepare for next release
         run: |
+          git switch main
+          npm version --no-git-tag-version --no-commit-hooks ${{ inputs.next_version }}
           git add .
           git commit -m "prepare for next release: ${{ inputs.next_version }}"
           git push
 
-      - name: Merge develop into main
-        run: |
-          git switch main
-          echo "$(git branch)"
-          git merge release/${{ steps.version.outputs.CURRENT_VERSION }}
-          git push
-
       - name: Draft release
-        run: gh release create $VERSION --generate-notes --draft
+        run: gh release create ${{ steps.version.outputs.CURRENT_VERSION }} --generate-notes --draft
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: ${{ inputs.next_version }}
