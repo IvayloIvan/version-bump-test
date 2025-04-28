@@ -52,7 +52,7 @@ jobs:
       - name: Merge develop into main
         run: |
           git checkout origin/main
-          git pull
+          git pull origin release/${{ steps.version.outputs.CURRENT_VERSION }}
           git merge release/${{ steps.version.outputs.CURRENT_VERSION }}
           git push
 
