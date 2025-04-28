@@ -33,6 +33,7 @@ jobs:
 
             - name: Bump version
               run: |
+                  echo npm view package.json version
                   echo "VERSION_NUMBER=$(npm view package.json version)" >> $GITHUB_ENV
                   git checkout -b release/${{ env.VERSION_NUMBER }}
                   git push
