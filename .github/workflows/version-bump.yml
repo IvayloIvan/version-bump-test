@@ -34,7 +34,7 @@ jobs:
       - name: Extract current version
         run: |
           git checkout main
-          echo "CURRENT_VERSION=$(npm view package.json version)" >> $GITHUB_OUTPUT
+          echo "CURRENT_VERSION=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
         id: version
 
       - name: Bump version
