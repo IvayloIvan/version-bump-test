@@ -33,12 +33,12 @@ jobs:
 
       - name: Extract current version
         run: |
-          echo "VERSION_NUMBER=$(npm view package.json version)" >> GITHUB_OUTPUT
+          echo "TAG_NAME=$(npm view package.json version)" >> $GITHUB_OUTPUT
         id: version
 
       - name: Bump version
         run: |
-          echo "${{ steps.version.outputs }}"
+          echo "${{ steps.version.outputs.TAG_NAME }}"
           git checkout -b release/${{ steps.version.outputs }}
           npm version --no-git-tag-version --no-commit-hooks ${{ inputs.next_version }}
 
