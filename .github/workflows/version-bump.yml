@@ -40,9 +40,7 @@ jobs:
       - name: Bump version
         run: |
           git switch -c release/${{ steps.version.outputs.CURRENT_VERSION }}
-          git branch --set-upstream-to=origin/release/${{ steps.version.outputs.CURRENT_VERSION }} release/${{ steps.version.outputs.CURRENT_VERSION }}
-          git pull
-          git push
+          git pull origin release/${{ steps.version.outputs.CURRENT_VERSION }}
           npm version --no-git-tag-version --no-commit-hooks ${{ inputs.next_version }}
 
       - name: Commit changes
