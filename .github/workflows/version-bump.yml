@@ -46,7 +46,7 @@ jobs:
       - name: Commit changes
         run: |
           git add .
-          git commit -m "version-bump: release ${{ inputs.next_version }}"
+          git commit -m "prepare for next release: ${{ inputs.next_version }}"
           git push
 
       - name: Merge develop into main
