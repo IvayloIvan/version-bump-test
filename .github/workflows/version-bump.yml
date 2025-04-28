@@ -51,7 +51,7 @@ jobs:
 
       - name: Merge develop into main
         run: |
-          git checkout release/${{ env.VERSION_NUMBER }}
+          git checkout release/${{ steps.version.outputs.CURRENT_VERSION }}
           git pull
           git merge origin/main
           git push
