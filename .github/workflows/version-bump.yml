@@ -51,9 +51,9 @@ jobs:
 
       - name: Merge develop into main
         run: |
-          git checkout release/${{ steps.version.outputs.CURRENT_VERSION }}
+          git checkout origin/main
           git pull
-          git merge origin/main
+          git merge release/${{ steps.version.outputs.CURRENT_VERSION }}
           git push
 
       - name: Draft release
