@@ -38,7 +38,7 @@ jobs:
         id: version
 
       - name: Bump next version
-        run: echo "NEXT_MAJOR_VERSION=${{steps.version.outputs.MAJOR_VERSION}} + 1" >> $GITHUB_OUTPUT
+        run: let "NEXT_MAJOR_VERSION=${{steps.version.outputs.MAJOR_VERSION}}+1" >> $GITHUB_OUTPUT
         id: next_version
 
       - name: Create Release Branch
