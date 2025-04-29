@@ -21,14 +21,8 @@ on:
 permissions:
   contents: write
 
-#jobs:
-#  job1:
-#    runs-on: "ubuntu-latest"
-#    steps:
-#      - name: Step1
-#        run: echo ${{ github.ref_name }}
 jobs:
-  job1:
+  bump_patch_version:
     if: ${{ startsWith(github.ref, 'refs/heads/release/') }}
     runs-on: ubuntu-latest
     steps:
