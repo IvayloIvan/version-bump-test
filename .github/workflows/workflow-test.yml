@@ -9,9 +9,9 @@ on:
       - main
       - 'release/**'
         # this list should match the .dockerignore list
-    paths:
-      - "src/main/**"
-      - "pom.xml"
+#    paths:
+#      - "src/main/**"
+#      - "pom.xml"
 
 permissions:
   contents: write
