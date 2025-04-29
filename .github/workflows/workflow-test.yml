@@ -4,13 +4,13 @@ name: Test workflow
 run-name: test workflow
 
 on:
-  push:
-    branches:
-      - main
-        # this list should match the .dockerignore list
-    paths:
-      - "src/main/**"
-      - "pom.xml"
+#  push:
+#    branches:
+#      - main
+#        # this list should match the .dockerignore list
+#    paths:
+#      - "src/main/**"
+#      - "pom.xml"
   create:
     branches:
       - 'release/**'
