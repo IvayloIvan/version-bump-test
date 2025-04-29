@@ -39,6 +39,12 @@ jobs:
           ref: ${{ github.ref_name }}
           ssh-key: ${{ secrets.VERSION_BUMP }}
 
+      - name: Configure git
+        run: |
+          git config --local user.email "github-actions@github.com"
+          git config --local user.name "GitHub Actions"
+
+
       - name: Extract current version
         run: |
           echo "MAJOR_VERSION=$(jq -r '.version | split(".") | .[0]' version.json)" >> $GITHUB_OUTPUT
