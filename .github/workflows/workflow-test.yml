@@ -7,7 +7,7 @@ on:
   push:
     branches:
       - main
-      - release/*
+      - 'release/**'
         # this list should match the .dockerignore list
     paths:
       - "src/main/**"
