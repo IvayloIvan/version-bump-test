@@ -1,7 +1,7 @@
 ---
 
-name: Test workflow
-run-name: test workflow
+name: Test Build trigger
+run-name: Test Build trigger
 
 on:
   #  push:

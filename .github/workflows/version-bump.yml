@@ -1,7 +1,7 @@
 ---
 
-name: Draft release
-run-name: Draft release
+name: Create release branch
+run-name: Create release branch
 
 on:
   workflow_dispatch:
