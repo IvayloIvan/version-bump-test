@@ -7,11 +7,13 @@ on:
   push:
     branches:
       - main
-      - 'release/**'
         # this list should match the .dockerignore list
-#    paths:
-#      - "src/main/**"
-#      - "pom.xml"
+    paths:
+      - "src/main/**"
+      - "pom.xml"
+  create:
+    branches:
+      - 'release/**'
 
 permissions:
   contents: write
