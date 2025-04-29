@@ -1,7 +1,7 @@
 ---
 
 name: Draft release
-run-name: Draft release ${{ steps.version.outputs.MAJOR_VERSION }}
+run-name: Draft release
 
 on:
   workflow_dispatch:
