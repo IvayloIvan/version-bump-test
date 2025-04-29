@@ -26,4 +26,15 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: Step1
-        run: echo ${{ github.ref }}
+        run: echo ${{ github.ref_name }}
+#jobs:
+#  job1:
+#    if: ${{ startsWith(github.ref, 'refs/heads/release/') }}
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0
+#          ref: ${{ github.branch }}
+#          ssh-key: ${{ secrets.VERSION_BUMP }}
