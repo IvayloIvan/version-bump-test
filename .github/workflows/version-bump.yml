@@ -34,24 +34,26 @@ jobs:
       - name: Extract current version
         run: |
           git switch main
-          echo "CURRENT_VERSION=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
+          echo "MAJOR_VERSION=$(jq -r '.version | split(".") | .[0]' version.json)" >> $GITHUB_OUTPUT
         id: version
 
       - name: Create Release Branch
         run: |
-          git switch -c release/${{ steps.version.outputs.CURRENT_VERSION }}
-          git push --set-upstream origin release/${{ steps.version.outputs.CURRENT_VERSION }}
+          git switch -c release/${{ steps.version.outputs.MAJOR_VERSION }}.x
+          git push --set-upstream origin release/${{ steps.version.outputs.MAJOR_VERSION }}.x
 
       - name: Prepare for next release
         run: |
           git switch main
-          npm version --no-git-tag-version --no-commit-hooks ${{ inputs.next_version }}
+          echo "NEXT_MAJOR_VERSION = ${{steps.version.outputs.MAJOR_VERSION}} + 1" >> $GITHUB_OUTPUT
+          cat <<< $(jq '.version = "${{steps.next_version.outputs.NEXT_MAJOR_VERSION}}.0.0"' version.json) > version.json
           git add .
           git commit -m "prepare for next release: ${{ inputs.next_version }}"
           git push
+        id: next_version
 
       - name: Draft release
-        run: gh release create ${{ steps.version.outputs.CURRENT_VERSION }} --generate-notes --draft
+        run: gh release create ${{ steps.version.outputs.MAJOR_VERSION }} --generate-notes --draft
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: ${{ inputs.next_version }}
