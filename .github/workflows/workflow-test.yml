@@ -11,9 +11,9 @@ on:
 #    paths:
 #      - "src/main/**"
 #      - "pom.xml"
-  create:
-    branches:
-      - 'release/**'
+  create
+#    branches:
+#      - 'release/**'
 
 permissions:
   contents: write
