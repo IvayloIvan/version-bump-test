@@ -37,6 +37,11 @@ jobs:
           echo "MAJOR_VERSION=$(jq -r '.version | split(".") | .[0]' version.json)" >> $GITHUB_OUTPUT
         id: version
 
+      - name: Bump next version
+        run: |
+          echo "NEXT_MAJOR_VERSION=$({{steps.version.outputs.MAJOR_VERSION}} + 1)" >> $GITHUB_OUTPUT
+        id: next_version
+
       - name: Create Release Branch
         run: |
           git switch -c release/${{ steps.version.outputs.MAJOR_VERSION }}.x
@@ -45,12 +50,11 @@ jobs:
       - name: Prepare for next release
         run: |
           git switch main
-          echo "NEXT_MAJOR_VERSION = ${{steps.version.outputs.MAJOR_VERSION}} + 1" >> $GITHUB_OUTPUT
+          echo "${{steps.next_version.outputs.NEXT_MAJOR_VERSION}}"
           cat <<< $(jq '.version = "${{steps.next_version.outputs.NEXT_MAJOR_VERSION}}.0.0"' version.json) > version.json
           git add .
-          git commit -m "prepare for next release: ${{ inputs.next_version }}"
+          git commit -m "prepare for next release: ${{steps.next_version.outputs.NEXT_MAJOR_VERSION}}.0.0"
           git push
-        id: next_version
 
       - name: Draft release
         run: gh release create ${{ steps.version.outputs.MAJOR_VERSION }} --generate-notes --draft
