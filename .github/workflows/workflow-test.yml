@@ -26,7 +26,7 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: Step1
-        run: echo ${{ github.branch_name }}
+        run: echo ${{ github.ref_name }}
 #jobs:
 #  job1:
 #    if: ${{ startsWith(github.ref, 'refs/heads/release/') }}
