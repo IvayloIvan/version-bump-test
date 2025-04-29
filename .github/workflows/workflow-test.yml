@@ -58,9 +58,7 @@ jobs:
 
       - name: Prepare for next release
         run: |
-          cat <<< $(jq '.version = "${{steps.version.outputs.MAJOR_VERSION}} \
-          .${{steps.version.outputs.MINOR_VERSION}} \
-          .${{steps.next_version.outputs.NEXT_PATCH_VERSION}}"' version.json) > version.json
+          cat <<< $(jq '.version = "${{steps.version.outputs.MAJOR_VERSION}}.${{steps.version.outputs.MINOR_VERSION}}.${{steps.next_version.outputs.NEXT_PATCH_VERSION}}"' version.json) > version.json
           git add .
           git commit -m "prepare for next hotfix release"
           git push
