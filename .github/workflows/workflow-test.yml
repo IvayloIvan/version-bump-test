@@ -22,9 +22,8 @@ permissions:
   contents: write
 
 jobs:
-  draft_release:
-    runs-on: ubuntu-latest
-
+  job1:
+    runs-on: "ubuntu-latest"
     steps:
-      - name: Configure git
-        run: echo "hello"
+      - name: Step1
+        run: echo ${{ github.ref }}
