@@ -45,6 +45,7 @@ jobs:
         run: |
           git switch -c release/${{ steps.version.outputs.MAJOR_VERSION }}.x
           git push --set-upstream origin release/${{ steps.version.outputs.MAJOR_VERSION }}.x
+       # TODO call build workflow for new release branch if possible
 
       - name: Prepare for next release
         run: |

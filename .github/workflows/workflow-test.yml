@@ -21,20 +21,40 @@ on:
 permissions:
   contents: write
 
-jobs:
-  job1:
-    runs-on: "ubuntu-latest"
-    steps:
-      - name: Step1
-        run: echo ${{ github.ref_name }}
 #jobs:
 #  job1:
-#    if: ${{ startsWith(github.ref, 'refs/heads/release/') }}
-#    runs-on: ubuntu-latest
+#    runs-on: "ubuntu-latest"
 #    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0
-#          ref: ${{ github.branch }}
-#          ssh-key: ${{ secrets.VERSION_BUMP }}
+#      - name: Step1
+#        run: echo ${{ github.ref_name }}
+jobs:
+  job1:
+    if: ${{ startsWith(github.ref, 'refs/heads/release/') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref_name }}
+          ssh-key: ${{ secrets.VERSION_BUMP }}
+
+      - name: Extract current version
+        run: |
+          echo "MAJOR_VERSION=$(jq -r '.version | split(".") | .[0]' version.json)" >> $GITHUB_OUTPUT
+          echo "MINOR_VERSION=$(jq -r '.version | split(".") | .[1]' version.json)" >> $GITHUB_OUTPUT
+          echo "PATCH_VERSION=$(jq -r '.version | split(".") | .[2]' version.json)" >> $GITHUB_OUTPUT
+        id: version
+
+      - name: Bump patch version
+        run: echo "NEXT_PATCH_VERSION=$((${{steps.version.outputs.PATCH_VERSION}}+1))" >> $GITHUB_OUTPUT
+        id: next_version
+
+      - name: Prepare for next release
+        run: |
+          cat <<< $(jq '.version = "${{steps.version.outputs.MAJOR_VERSION}} \
+          .${{steps.version.outputs.MINOR_VERSION}} \
+          .${{steps.next_version.outputs.NEXT_PATCH_VERSION}}"' version.json) > version.json
+          git add .
+          git commit -m "prepare for next hotfix release"
+          git push
