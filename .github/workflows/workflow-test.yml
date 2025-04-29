@@ -1,0 +1,25 @@
+---
+
+name: Test workflow
+run-name: test workflow
+
+on:
+  push:
+    branches:
+      - main
+      - release/*
+        # this list should match the .dockerignore list
+    paths:
+      - "src/main/**"
+      - "pom.xml"
+
+permissions:
+  contents: write
+
+jobs:
+  draft_release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure git
+        run: echo "hello"
