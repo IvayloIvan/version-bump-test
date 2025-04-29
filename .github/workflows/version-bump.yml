@@ -32,9 +32,7 @@ jobs:
           git config --local user.name "GitHub Actions"
 
       - name: Extract current version
-        run: |
-          git switch main
-          echo "MAJOR_VERSION=$(jq -r '.version | split(".") | .[0]' version.json)" >> $GITHUB_OUTPUT
+        run: echo "MAJOR_VERSION=$(jq -r '.version | split(".") | .[0]' version.json)" >> $GITHUB_OUTPUT
         id: version
 
       - name: Bump next version
